@@ -20,7 +20,7 @@ export interface Furniture{
 @Injectable({
   providedIn: 'root',
 })
-export class Furniture {
+export class furnitureService {
   private apiUrl = "./api/furnitures"
 
   constructor(private http: HttpClient) {}

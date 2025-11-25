@@ -1,1 +1,92 @@
-<p>front-page works!</p>
+<!-- Barre de navigation -->
+<nav class="bg-indigo-600 text-white p-4 shadow-md">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="text-2xl font-bold">Furnitures Store</div>
+    <a
+      [routerLink]="['/login']"
+      class="px-4 py-2 bg-indigo-700 hover:bg-indigo-800 rounded-md transition-colors"
+    >
+      Se connecter
+    </a>
+  </div>
+</nav>
+
+<!-- Section des filtres -->
+<div class="bg-gray-100 p-6 mb-6">
+  <div class="container mx-auto">
+    <div class="flex flex-col md:flex-row gap-4 items-center mb-4">
+      <!-- Recherche par titre -->
+      <input
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher par titre..."
+        class="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+
+      <!-- Filtre par type -->
+      <div class="flex items-center gap-2">
+        <label class="font-medium">Type :</label>
+        <select
+          [(ngModel)]="selectedType"
+          class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="">Tous les types</option>
+          <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+
+      <!-- Filtre par prix (sliders) -->
+      <div class="flex flex-col gap-2 w-full md:w-96">
+        <div class="flex justify-between">
+          <span>Prix min : {{ prixMin || "0" }} €</span>
+          <span>Prix max : {{ prixMax || "1000" }} €</span>
+        </div>
+        <div class="flex gap-4 items-center">
+          <input
+            type="range"
+            [min]="0"
+            [max]="1000"
+            [step]="10"
+            [(ngModel)]="prixMin"
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+          />
+          <input
+            type="range"
+            [min]="0"
+            [max]="1000"
+            [step]="10"
+            [(ngModel)]="prixMax"
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+          />
+        </div>
+      </div>
+
+      <!-- Bouton de réinitialisation -->
+      <button
+        (click)="resetFilters()"
+        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md transition-colors"
+      >
+        Réinitialiser
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Section d'affichage des meubles -->
+<div class="container mx-auto p-6">
+  <div *ngIf="filteredFurnitures.length === 0" class="text-center text-gray-500 py-8">
+    Aucun meuble ne correspond à vos critères.
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let furniture of filteredFurnitures" class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="p-4">
+        <h3 class="text-xl font-semibold mb-2">{{ furniture.title }}</h3>
+        <p class="text-gray-600 mb-1"><strong>Type :</strong> {{ furniture.type_id.type }}</p>
+        <p class="text-gray-600 mb-4"><strong>Prix :</strong> {{ furniture.price }} €</p>
+        <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+          Voir plus
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
