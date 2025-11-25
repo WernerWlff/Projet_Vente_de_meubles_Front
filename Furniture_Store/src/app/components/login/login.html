@@ -1,9 +1,14 @@
 <nav class="bg-indigo-600 text-white p-3 shadow-md">
   <div class="container mx-auto flex justify-between items-center">
-    <div class="text-xl font-bold">Furnitures Store</div>
+    <a
+    [routerLink]="['/frontPage']"
+    class="px-3 py-1.5 text-xl font-bold bg-transparent hover:bg-indigo-700 rounded-md transition-colors"
+    >
+      Accueil
+    </a>
     <a
       [routerLink]="['/login']"
-      class="px-3 py-1.5 text-sm bg-indigo-700 hover:bg-indigo-800 rounded-md transition-colors"
+      class="px-3 py-1.5 text-sm bg-indigo-700 hover:bg-indigo-700 rounded-md transition-colors"
     >
       Se connecter
     </a>
