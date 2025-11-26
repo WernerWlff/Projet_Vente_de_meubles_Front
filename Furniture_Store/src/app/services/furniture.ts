@@ -8,20 +8,20 @@ import { Observable } from 'rxjs';
 export interface Furniture{
   id: number,
   title: string,
-  type_id: Type,
+  type: Type,
   description: string,
   price: number,
-  status_id: Status,
+  status: Status,
   created_at: Date,
   photo: string,
-  vendor_id: User
+  user: User
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class furnitureService {
-  private apiUrl = "./api/furnitures"
+  private apiUrl = "/api/furnitures"
 
   constructor(private http: HttpClient) {}
 

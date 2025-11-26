@@ -38,8 +38,8 @@ export class LoginComponent {
 
     this.authService.login(email, password).subscribe({
       next: ( response: any) => {
-        localStorage.setItem('token', response.token);
-        this.router.navigate(['/front-page']);
+        this.authService.setToken(response.token);
+        this.router.navigate(['/frontPage']);
       },
       error: () => {
         this.errorMessage = 'Identifiants incorrects';

@@ -1,0 +1,79 @@
+<nav class="bg-indigo-600 text-white p-3 shadow-md">
+  <div class="container mx-auto flex justify-between items-center">
+    <a
+      [routerLink]="['/frontPage']"
+      class="px-3 py-1.5 text-xl font-bold bg-transparent hover:bg-indigo-700 rounded-md transition-colors"
+    >
+      Accueil
+    </a>
+    <a
+      [routerLink]="['/login']"
+      class="px-3 py-1.5 text-sm bg-indigo-700 hover:bg-indigo-700 rounded-md transition-colors"
+    >
+      Se connecter
+    </a>
+  </div>
+</nav>
+
+<div class="min-h-[calc(100vh-60px)] bg-gray-50 p-4 sm:p-6 lg:p-8">
+  <div class="container mx-auto max-w-6xl">
+    <div class="mb-8">
+      <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Gestion des Meubles</h1>
+      <p class="text-gray-600">Gérez l'inventaire et le statut de tous les meubles</p>
+    </div>
+
+    <!-- Message d'accès refusé -->
+    <div *ngIf="!isAdmin" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+      <p class="text-red-800 font-medium">Accès refusé</p>
+      <p class="text-red-700 text-sm">Seuls les administrateurs peuvent accéder à cette page.</p>
+    </div>
+
+    <!-- Tableau des meubles -->
+    <div *ngIf="isAdmin" class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-100 border-b border-gray-200">
+            <tr>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">ID</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nom</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Prix</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Statut</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr *ngFor="let furniture of furnitures" class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-3 text-sm text-gray-900">{{ furniture.id }}</td>
+              <td class="px-6 py-3 text-sm text-gray-900 font-medium">{{ furniture.title }}</td>
+              <td class="px-6 py-3 text-sm text-gray-900">{{ furniture.price }}€</td>
+              <td class="px-6 py-3 text-sm">
+                <select
+                  [value]="furniture.status.id"
+                  (change)="onStatusChange(furniture, $event)"
+                  class="px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  <option *ngFor="let status of statusTypes" [value]="status.id">
+                    {{ status.status }}
+                  </option>
+                </select>
+              </td>
+              <td class="px-6 py-3 text-sm">
+                <button
+                  (click)="deleteFurniture(furniture.id)"
+                  class="px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors"
+                >
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Message vide -->
+      <div *ngIf="furnitures.length === 0" class="px-6 py-8 text-center">
+        <p class="text-gray-500 italic">Aucun meuble disponible</p>
+      </div>
+    </div>
+  </div>
+</div>

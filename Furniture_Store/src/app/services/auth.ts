@@ -6,7 +6,8 @@ import { jwtDecode } from 'jwt-decode';
 export interface JwtPayload{
   sub : string,
   iat : number,
-  exp : number
+  exp : number,
+  role?: string
 }
 
 @Injectable({
@@ -54,9 +55,13 @@ export class AuthService {
     }
   }
 
-  // get Username / email
   getUsername(): string | null {
     const userInfo = this.getUserInfo();
     return userInfo ? userInfo.sub : null;
+  }
+
+  getUserRole(): string | null {
+    const userInfo = this.getUserInfo();
+    return userInfo ? userInfo.role || null : null;
   }
 }

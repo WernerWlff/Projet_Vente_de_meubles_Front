@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Furniture, furnitureService } from '../../services/furniture';
-import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -20,7 +19,7 @@ export class FrontPageComponent implements OnInit {
   prixMin: number | null = 0;
   prixMax: number | null = 1000;
 
-  constructor(private furnitureService: furnitureService, private dialog: MatDialog) {} 
+  constructor(private furnitureService: furnitureService) {} 
 
   ngOnInit(): void {
     this.loadFurnitures();
@@ -39,27 +38,29 @@ export class FrontPageComponent implements OnInit {
   }
 
   filterValidatedFurnitures(furnitures: Furniture[]): void {
-    this.furnitures = furnitures.filter(
-      (furniture) => furniture.status_id && (furniture.status_id as any).id === 1
-    );
+    this.furnitures = furnitures;
   }
 
-  // filters
   createFilter(): void {
-    this.types = [...new Set(this.furnitures.map(furniture => furniture.type_id.type))];
+    const typeNames = this.furnitures
+      .map(furniture => furniture.type?.type)
+      .filter((typeName): typeName is string => !!typeName);
+
+    this.types = [...new Set(typeNames)];
   }
 
   get filteredFurnitures() : Furniture[] {
     return this.furnitures.filter(furniture => {
       const matchesSearch = furniture.title.toLowerCase().includes(this.searchQuery.toLowerCase());
-      const matchesTypes = this.selectedType ? furniture.type_id.type === this.selectedType : true;
+      const matchesTypes = this.selectedType
+        ? furniture.type?.type === this.selectedType
+        : true;
       const matchesPrice = ( this.prixMin === null || furniture.price >= this.prixMin) &&
                            ( this.prixMax === null || furniture.price <= this.prixMax);
       return matchesSearch && matchesTypes && matchesPrice;
     });
   }
 
-  // button to reset the filter
   resetFilters(): void {
   this.searchQuery = '';
   this.selectedType = '';
