@@ -76,14 +76,35 @@
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div *ngFor="let furniture of filteredFurnitures" class="bg-white rounded-lg shadow-md overflow-hidden">
-      <div class="p-4">
-        <h3 class="text-xl font-semibold mb-2">{{ furniture.title }}</h3>
-        <p class="text-gray-600 mb-1"><strong>Type :</strong> {{ furniture.type_id.type }}</p>
-        <p class="text-gray-600 mb-4"><strong>Prix :</strong> {{ furniture.price }} €</p>
-        <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
-          Voir plus
-        </button>
+    <div
+      *ngFor="let furniture of filteredFurnitures"
+      class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col"
+    >
+      <!-- Image placeholder -->
+      <div class="h-40 bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white text-sm font-medium">
+        Photo à venir
+      </div>
+
+      <!-- Content -->
+      <div class="p-4 flex-1 flex flex-col">
+        <h3 class="text-lg font-semibold mb-1 text-gray-900 line-clamp-2">
+          {{ furniture.title }}
+        </h3>
+
+        <p class="text-sm text-gray-500 mb-2">
+          {{ furniture.description }}
+        </p>
+
+        <div class="mt-auto space-y-1 text-sm text-gray-700">
+          <p>
+            <span class="font-semibold">Type :</span>
+            {{ furniture.type?.type || 'Sans type' }}
+          </p>
+          <p>
+            <span class="font-semibold">Prix :</span>
+            {{ furniture.price }} €
+          </p>
+        </div>
       </div>
     </div>
   </div>
